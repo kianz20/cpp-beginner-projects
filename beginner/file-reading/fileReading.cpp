@@ -16,21 +16,52 @@ void printHighScores(std::vector<std::string> scores)
     }
 }
 
-void printScoresOnly(std::vector<std::string> scores)
+std::vector<std::string> getNames(std::vector<std::string> scores)
 {
+    std::vector<std::string> names;
+    for (std::string i : scores)
+    {
+        if (!std::all_of(i.begin(), i.end(), ::isdigit) && !i.empty())
+        {
+            names.push_back(i);
+        }
+    }
+    return names;
+}
+
+std::vector<int> printScoresOnly(std::vector<std::string> scores)
+{
+    std::vector<int> scoresReturn;
     for (std::string i : scores)
     {
         if (std::all_of(i.begin(), i.end(), ::isdigit) && !i.empty())
         {
-            std::cout << i << ' ';
+            scores.push_back(i);
         }
     }
-    std::cout << '\n';
+    return scoresReturn;
+}
+
+std::vector<std::string> addToScores(std::vector<std::string> scores, int score)
+{
+    std::string name;
+    std::cout << "Enter your name";
+    std::cin >> name;
+    if (std::find(scores.begin(), scores.end(), name) != scores.end())
+    {
+        auto
+    }
+    else
+    {
+        scores.push_back(name);
+        scores.push_back(std::to_string(score));
+    }
+    return scores;
 }
 
 int main()
 {
-    std::ifstream highScores("highScore.txt");
+    std::fstream highScores("highScore.txt", std::ios::in | std::ios::out);
     std::string scores;
 
     if (highScores.is_open())
@@ -40,10 +71,18 @@ int main()
             char ch = highScores.get();
             scores = scores + ch;
         }
-    }
+    };
+    highScores.clear();
+
     std::vector<std::string> scoreVector;
     boost::split(scoreVector, scores, boost::is_any_of(" \n"));
 
-    printScoresOnly(scoreVector);
-    printHighScores(scoreVector);
+    // printScoresOnly(scoreVector);
+    // printHighScores(scoreVector);
+
+    while (true)
+    {
+        // addToScores(scoreVector);
+    }
+    highScores.close();
 }
