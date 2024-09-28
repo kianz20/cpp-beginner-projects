@@ -3,17 +3,39 @@
 #include <time.h>
 #include <limits>
 
+int n;
+int guess;
+int answer;
+
+std::string guessFeedback()
+{
+    if (guess < 0 || guess > n)
+    {
+        return "Out of range, pick between 0 and " + std::to_string(n) + "\n";
+    }
+    if (answer > guess)
+    {
+        return "Too low\n";
+    }
+    else if (guess > answer)
+    {
+        return "Too high\n";
+    }
+    else
+    {
+        return "You won! The answer was " + std::to_string(answer);
+    }
+}
+
 int main()
 {
     while (true)
     {
-        int n;
         std::cout << "\nWhat range of numbers do you want to play with?\n";
         std::cin >> n;
 
         srand(time(0));
-        int answer = rand() % n;
-        int guess;
+        answer = rand() % n;
 
         std::cout << "Start guessing!\n";
 
@@ -21,19 +43,7 @@ int main()
         {
             if (std::cin >> guess)
             {
-                if (guess < 0 || guess > n)
-                {
-                    std::cout << "Out of range, pick between 0 and " << n << "\n";
-                    continue;
-                }
-                if (answer > guess)
-                {
-                    std::cout << "Too low\n";
-                }
-                else if (guess > answer)
-                {
-                    std::cout << "Too high\n";
-                }
+                std::cout << guessFeedback();
             }
             else
             {
@@ -42,7 +52,7 @@ int main()
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             }
         }
-        std::cout << "You won! The answer was " << answer;
+
         std::cout << "\nEnter X to close, or any other button to play again";
 
         char input;
