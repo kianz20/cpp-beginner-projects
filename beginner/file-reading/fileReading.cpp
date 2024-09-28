@@ -42,14 +42,25 @@ std::vector<int> printScoresOnly(std::vector<std::string> scores)
     return scoresReturn;
 }
 
-std::vector<std::string> addToScores(std::vector<std::string> scores, int score)
+std::vector<std::string> addToScores(std::vector<std::string> &scores, int score)
 {
     std::string name;
     std::cout << "Enter your name";
     std::cin >> name;
-    if (std::find(scores.begin(), scores.end(), name) != scores.end())
+    auto it = std::find(scores.begin(), scores.end(), name);
+    if (it != scores.end())
     {
-        auto
+        std::cout << "Found: " << *it << std::endl;
+        auto foundScore = std::next(it);
+        if (score > std::stoi(*foundScore))
+        {
+            std::cout << "Update" << *foundScore << " score to " << score;
+            *foundScore = std::to_string(score);
+        }
+        else
+        {
+            std::cout << "Your score " << score << " is less than existing highscore " << *foundScore;
+        }
     }
     else
     {
@@ -72,17 +83,27 @@ int main()
             scores = scores + ch;
         }
     };
-    highScores.clear();
 
     std::vector<std::string> scoreVector;
     boost::split(scoreVector, scores, boost::is_any_of(" \n"));
 
-    // printScoresOnly(scoreVector);
-    // printHighScores(scoreVector);
+    addToScores(scoreVector, 33);
 
-    while (true)
+    highScores.clear();
+    highScores.seekp(0);
+
+    for (size_t i = 0; i < scoreVector.size(); i += 2)
     {
-        // addToScores(scoreVector);
+        highScores << scoreVector[i] << " " << scoreVector[i + 1] << "\n";
     }
+
+    highScores.close();
+
+    for (std::string score : scoreVector)
+    {
+        std::cout << "\n"
+                  << score;
+    }
+
     highScores.close();
 }
