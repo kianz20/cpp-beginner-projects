@@ -6,24 +6,35 @@
 int n;
 int guess;
 int answer;
+int guessCount;
 
-std::string guessFeedback()
+std::string
+guessFeedback()
 {
+    guessCount++;
     if (guess < 0 || guess > n)
     {
         return "Out of range, pick between 0 and " + std::to_string(n) + "\n";
     }
     if (answer > guess)
     {
+        if (guess + (n / 10) < answer)
+        {
+            return "Way too low\n";
+        }
         return "Too low\n";
     }
     else if (guess > answer)
     {
+        if (guess - (n / 10) > answer)
+        {
+            return "Way too high\n";
+        }
         return "Too high\n";
     }
     else
     {
-        return "You won! The answer was " + std::to_string(answer);
+        return "You won in " + std::to_string(guessCount) + " guesses! The answer was " + std::to_string(answer);
     }
 }
 
@@ -31,6 +42,7 @@ int main()
 {
     while (true)
     {
+        guessCount = 0;
         std::cout << "\nWhat range of numbers do you want to play with?\n";
         std::cin >> n;
 
