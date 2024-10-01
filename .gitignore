@@ -32,3 +32,7 @@
 *.app
 /.vscode
 /external-libraries
+/QT6.7 Learning/QTTableLearning/.vs
+/QT6.7 Learning/QTTableLearning/QTTableLearning
+QT6.7 Learning/QTTableLearning/QTTableLearning.vcxproj.filters
+QT6.7 Learning/QTTableLearning/QTTableLearning.vcxproj.user
